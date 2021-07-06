@@ -13,7 +13,7 @@ import { ApplicationUser } from '../models/account/application-user.model';
 export class AccountService {
 
   private currentUserSubject$: BehaviorSubject<ApplicationUser>
-
+  private allUsers : ApplicationUser
   constructor(
     private http: HttpClient
   ) { 
@@ -28,7 +28,7 @@ export class AccountService {
           localStorage.setItem('blogLab-currentUser', JSON.stringify(user));
           this.setCurrentUser(user);
         }
-
+          console.log(user);
         return user;
       })
     )
@@ -70,4 +70,6 @@ export class AccountService {
     localStorage.removeItem('blogLab-currentUser');
     this.currentUserSubject$.next(null);
   }
+
+  
 }

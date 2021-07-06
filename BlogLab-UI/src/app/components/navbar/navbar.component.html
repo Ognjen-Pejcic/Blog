@@ -3,11 +3,8 @@
 
         <a class="navbar-brand" routerLink='/' routerLinkActive='active'>BlogLab</a>
 
-        <button class="navbar-toggler"
-            data-toggle="collapse"
-            data-target="#navbarNav"
-            (click)="isCollapsed = !isCollapsed"
-            [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav"
+            (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
 
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -24,13 +21,12 @@
                 </li>
             </ul>
 
+
+
+            
             <div class="btn-group" dropdown *ngIf="accountService.isLoggedIn()">
 
-                <button 
-                    id="button-animated"
-                    dropdownToggle
-                    type="button"
-                    class="btn btn-primary dropdown-toggle"
+                <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                     aria-controls="dropdown-animated">
                     Welcome {{ accountService.currentUserValue.username }}! <span class="caret"></span>
                 </button>
@@ -44,13 +40,16 @@
                         <a class="dropdown-item" routerLink='/dashboard'>Dashboard</a>
                     </li>
                     <li role="divider dropdown-divider"></li>
+                    <!-- <li role="menuitem" *ngIf = "user.admin==true">
+                        <a class="dropdown-item" (click)="users()">Users Dashboard</a>
+                    </li> -->
                     <li role="menuitem">
                         <a class="dropdown-item" (click)="logout()">Logout</a>
                     </li>
                 </ul>
 
             </div>
-                
+
         </div>
 
     </div>

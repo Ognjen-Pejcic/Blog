@@ -104,17 +104,31 @@ namespace BlogLab.Web.Controllers
             return Ok(blogs);
         }
 
+
+        [HttpGet("broj/{applicationUserId}")]
+        public async Task<ActionResult<int>> GetComment( int applicationUserId)
+        {
+            var comments  = await _blogRepository.GetNumber(applicationUserId);
+
+            return Ok(comments);
+        }
+
+
+
         [Authorize]
-        [HttpDelete("{blogId}")]
-        public async Task<ActionResult<int>> Delete(int blogId)
+        [HttpDelete("{blogId}/{admin}")]
+        public async Task<ActionResult<int>> Delete(int blogId, bool admin)
         {
             int applicationUserId = int.Parse(User.Claims.First(i => i.Type == JwtRegisteredClaimNames.NameId).Value);
 
             var foundBlog = await _blogRepository.GetAsync(blogId);
 
+            var user = await _blogRepository.GetUser(foundBlog.ApplicationUserId);
+
+
             if (foundBlog == null) return BadRequest("Blog does not exist.");
 
-            if (foundBlog.ApplicationUserId == applicationUserId)
+            if (foundBlog.ApplicationUserId == applicationUserId || admin)
             {
                 var affectedRows = await _blogRepository.DeleteAsync(blogId);
 

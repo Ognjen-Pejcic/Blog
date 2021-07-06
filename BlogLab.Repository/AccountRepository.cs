@@ -32,14 +32,15 @@ namespace BlogLab.Repository
             dataTable.Columns.Add("NormalizedEmail", typeof(string));
             dataTable.Columns.Add("Fullname", typeof(string));
             dataTable.Columns.Add("PasswordHash", typeof(string));
-
+            dataTable.Columns.Add("Admin", typeof(bool));
             dataTable.Rows.Add(
                 user.Username,
                 user.NormalizedUsername,
                 user.Email,
                 user.NormalizedEmail,
                 user.Fullname,
-                user.PasswordHash
+                user.PasswordHash,
+                user.Admin
                 );
 
             using (var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection")))
@@ -71,5 +72,7 @@ namespace BlogLab.Repository
 
             return applicationUser;
         }
+
+
     }
 }

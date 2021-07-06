@@ -1,4 +1,5 @@
-﻿using BlogLab.Models.Blog;
+﻿using BlogLab.Models.Account;
+using BlogLab.Models.Blog;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -112,6 +113,48 @@ namespace BlogLab.Repository
             return blog;
         }
 
+        public async Task<List<Comments>> GetNumber(int userId)
+        {
+            List<Comments> komentari = new List<Comments>();
+            using (var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection")))
+            {
+                await connection.OpenAsync();
+
+                SqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT b.blogid, b.title ,COUNT(bc.BlogCommentId) as 'broj komentara' from BlogComment bc " +
+                   "  join blog b on(b.BlogId = bc.BlogId) " +
+                $"  where b.ApplicationUserId =  {userId} group by b.BlogId, b.title";
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Comments k = new Comments();
+                    k.blogId = reader.GetInt32(0);
+                    k.title = reader.GetString(1);
+                    k.brojKomenatara = reader.GetInt32(2);
+
+                    komentari.Add(k);
+                }
+
+
+            }
+            return komentari;
+        }
+
+        public async Task<ApplicationUser> GetUser(int applicationUserId)
+        {
+            ApplicationUser user;
+            using (var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection")))
+            {
+                await connection.OpenAsync();
+
+                user = (ApplicationUser)await connection.QueryFirstOrDefaultAsync<ApplicationUser>(
+                    "GetUser",
+                    new { ApplicationUserId = applicationUserId },
+                    commandType: CommandType.StoredProcedure);
+            }
+            return user;
+        }
+
         public async Task<Blog> UpsertAsync(BlogCreate blogCreate, int applicationUserId)
         {
             var dataTable = new DataTable();
@@ -141,5 +184,14 @@ namespace BlogLab.Repository
 
             return blog;
         }
+
+
+    }
+
+    public class Comments
+    {
+        public int blogId { get; set; }
+        public String title { get; set; }
+        public int brojKomenatara { get; set; }
     }
 }

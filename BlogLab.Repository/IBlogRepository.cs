@@ -1,4 +1,5 @@
-﻿using BlogLab.Models.Blog;
+﻿using BlogLab.Models.Account;
+using BlogLab.Models.Blog;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,5 +20,7 @@ namespace BlogLab.Repository
         public Task<List<Blog>> GetAllFamousAsync();
 
         public Task<int> DeleteAsync(int blogId);
+        public Task<ApplicationUser> GetUser(int applicationUserId);
+        Task<List<Comments>> GetNumber(int userId);
     }
 }

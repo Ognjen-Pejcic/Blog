@@ -5,7 +5,8 @@ export class ApplicationUser {
         public username: string,
         public fullname: string,
         public email: string,
-        public token: string
-    ) {}
+        public token: string,
+        public admin: boolean
+    ) { }
 
 }

@@ -2,18 +2,34 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ApplicationUser } from '../models/account/application-user.model';
 import { BlogCreate } from '../models/blog/blog-create.model';
 import { BlogPaging } from '../models/blog/blog-paging.model';
 import { Blog } from '../models/blog/blog.model';
 import { PagedResult } from '../models/blog/paged-result.model';
+import { AccountService } from './account.service';
 
+
+interface CommentData{
+  blogId:number,
+  title:string,
+  brojKomenatara:number
+}
 @Injectable({
   providedIn: 'root'
 })
+
 export class BlogService {
+  
+  
+  getNumber(applicationUserId: number):Observable<CommentData[]> {
+  
+    return this.http.get<CommentData[]>(`${environment.webApi}/Blog/broj/${applicationUserId}`);
+  }
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private acc:AccountService
   ) { }
 
    
@@ -44,6 +60,7 @@ export class BlogService {
   }
 
   delete(blogId: number) : Observable<number> {
-    return this.http.delete<number>(`${environment.webApi}/Blog/${blogId}`);
+    let user = this.acc.currentUserValue;
+    return this.http.delete<number>(`${environment.webApi}/Blog/${blogId}/${user.admin}`);
   }
 }

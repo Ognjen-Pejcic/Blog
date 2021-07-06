@@ -30,6 +30,9 @@ import { PhotoAlbumComponent } from './components/photo-album/photo-album.compon
 import { RegisterComponent } from './components/register/register.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { UserManagementComponent } from './user-management/user-management.component';
+
 
 @NgModule({
   declarations: [
@@ -46,10 +49,12 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     DashboardComponent,
     HomeComponent,
     LoginComponent,
-    NavbarComponent,
     NotFoundComponent,
     PhotoAlbumComponent,
-    RegisterComponent
+    RegisterComponent,
+    NavbarComponent,
+    UserManagementComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -58,6 +63,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    // FlexLayoutModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'

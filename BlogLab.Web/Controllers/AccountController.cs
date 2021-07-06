@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlogLab.Models.Account;
+using BlogLab.Repository;
 using BlogLab.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +18,6 @@ namespace BlogLab.Web.Controllers
         private readonly ITokenService _tokenService;
         private readonly UserManager<ApplicationUserIdentity> _userManager;
         private readonly SignInManager<ApplicationUserIdentity> _signInManager;
-
         public AccountController(
             ITokenService tokenService, 
             UserManager<ApplicationUserIdentity> userManager,
@@ -78,7 +78,9 @@ namespace BlogLab.Web.Controllers
                         Username = applicationUserIdentity.Username,
                         Email = applicationUserIdentity.Email,
                         Fullname = applicationUserIdentity.Fullname,
-                        Token = _tokenService.CreateToken(applicationUserIdentity)
+                        Token = _tokenService.CreateToken(applicationUserIdentity),
+                        Admin = applicationUserIdentity.Admin
+
                     };
 
                     return Ok(applicationUser);
@@ -87,5 +89,6 @@ namespace BlogLab.Web.Controllers
 
             return BadRequest("Invalid login attempt.");
         }
+
     }
 }

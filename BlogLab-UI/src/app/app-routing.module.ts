@@ -9,10 +9,12 @@ import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PhotoAlbumComponent } from './components/photo-album/photo-album.component';
 import { AuthGuard } from './guards/auth.guard';
+import { UserManagementComponent } from './user-management/user-management.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'user-management', component: UserManagementComponent},
   {path: 'blogs', component: BlogsComponent},
   {path: 'blogs/:id', component: BlogComponent},
   {path: 'photo-album', component: PhotoAlbumComponent, canActivate: [AuthGuard]},
